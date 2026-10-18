@@ -14,11 +14,13 @@ MongoDB aggregation for **average rating + review count per college**, plus a Ne
 | Frontend | **Next.js 16** (App Router, TypeScript), **Tailwind CSS v4** |
 | Ops | Docker Compose, Dockerfiles, GitHub Actions CI, seed script, Postman + OpenAPI docs |
 
-> **Stack note.** The brief lists Node/Express/Mongoose/Joi/Jest. As requested, the backend here is
-> Python, using direct equivalents: Express → **FastAPI**, Mongoose → **Beanie**, Joi → **Pydantic**,
-> Jest + Supertest → **pytest + httpx**. The setup commands from the brief (`npm install`,
-> `npm run seed`, `npm run dev`, `npm test`) still work unchanged: the root `package.json` wraps the
-> Python tooling.
+> **Stack note.** The brief lists Node/Express/Mongoose/Joi/Jest. I chose to build the backend in
+> Python with FastAPI, using a direct equivalent for each piece: Express → **FastAPI**,
+> Mongoose → **Beanie**, Joi → **Pydantic**, Jest + Supertest → **pytest + httpx**. Everything else
+> in the brief is covered as specified (MongoDB, JWT, bcrypt, roles, aggregation, Docker Compose,
+> seed script, tests, Postman/Swagger). The setup commands from the brief (`npm install`,
+> `npm run seed`, `npm run dev`, `npm test`) work unchanged, because the root `package.json` wraps
+> the Python tooling.
 
 ---
 

@@ -1,0 +1,64 @@
+
+> college-review-system@1.0.0 test:report
+> node scripts/py.mjs -m pytest --cov --cov-report=term-missing --cov-report=html:../docs/test-results/coverage-html --junitxml=../docs/test-results/junit.xml
+
+============================= test session starts =============================
+platform win32 -- Python 3.12.2, pytest-9.1.1, pluggy-1.7.0
+rootdir: backend
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1, asyncio-1.4.0, cov-7.1.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collected 131 items
+
+tests\test_app.py ...............                                        [ 11%]
+tests\test_auth.py ........................                              [ 29%]
+tests\test_colleges.py ..........................................        [ 61%]
+tests\test_reviews.py ......................................             [ 90%]
+tests\test_users.py ............                                         [100%]
+
+- generated xml file: docs\test-results\junit.xml -
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.2-final-0 _______________
+
+Name                              Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------
+app\__init__.py                       0      0      0      0   100%
+app\api\__init__.py                   0      0      0      0   100%
+app\api\deps.py                      42      0      8      0   100%
+app\api\responses.py                  5      0      0      0   100%
+app\api\router.py                     8      0      0      0   100%
+app\api\routes\__init__.py            0      0      0      0   100%
+app\api\routes\auth.py               23      0      0      0   100%
+app\api\routes\colleges.py           31      0      0      0   100%
+app\api\routes\health.py              9      0      0      0   100%
+app\api\routes\reviews.py            25      0      0      0   100%
+app\api\routes\users.py              19      0      0      0   100%
+app\core\__init__.py                  0      0      0      0   100%
+app\core\config.py                   38      1      4      1    95%   49
+app\core\database.py                 15      0      0      0   100%
+app\core\errors.py                   63      1      2      0    98%   117
+app\core\middleware.py               22      0      2      0   100%
+app\core\rate_limit.py                4      0      0      0   100%
+app\core\security.py                 38      0      4      0   100%
+app\main.py                          38      0      0      0   100%
+app\models\__init__.py                5      0      0      0   100%
+app\models\college.py                21      0      0      0   100%
+app\models\common.py                  3      0      0      0   100%
+app\models\review.py                 16      0      0      0   100%
+app\models\user.py                   21      0      0      0   100%
+app\schemas\__init__.py               0      0      0      0   100%
+app\schemas\auth.py                  34      0      4      0   100%
+app\schemas\college.py               59      1      8      1    97%   20
+app\schemas\common.py                24      0      0      0   100%
+app\schemas\review.py                45      0      2      0   100%
+app\schemas\user.py                  22      0      2      0   100%
+app\services\__init__.py              0      0      0      0   100%
+app\services\auth_service.py         27      2      6      0    94%   23-24
+app\services\college_service.py      70      0     16      0   100%
+app\services\review_service.py       65      0     26      0   100%
+app\services\user_service.py         34      0     12      0   100%
+-----------------------------------------------------------------------------
+TOTAL                               826      5     96      2    99%
+Coverage HTML written to dir ../docs/test-results/coverage-html
+============================ 131 passed in 11.10s =============================

@@ -1,0 +1,142 @@
+newman
+
+College Review System API
+
+□ Health
+└ Health check
+  GET http://localhost:8000/api/v1/health [200 OK, 345B, 43ms]
+  √  status is 200
+
+□ Auth
+└ Register (student)
+  POST http://localhost:8000/api/v1/auth/register [201 Created, 778B, 341ms]
+  √  status is 201
+
+└ Register (teacher)
+  POST http://localhost:8000/api/v1/auth/register [201 Created, 778B, 374ms]
+  √  status is 201
+
+└ Register — validation error (422)
+  POST http://localhost:8000/api/v1/auth/register [422 Unprocessable Entity, 808B, 6ms]
+  √  status is 422
+
+└ Login as Admin
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 758B, 305ms]
+  √  status is 2xx
+
+└ Login as Teacher
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 771B, 324ms]
+  √  status is 2xx
+
+└ Login as Student
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 766B, 321ms]
+  √  status is 2xx
+
+└ Login — wrong password (401)
+  POST http://localhost:8000/api/v1/auth/login [401 Unauthorized, 436B, 304ms]
+  √  status is 401
+
+└ Me
+  GET http://localhost:8000/api/v1/auth/me [200 OK, 483B, 12ms]
+  √  status is 200
+
+□ Colleges
+└ List colleges (avg rating + review count)
+  GET http://localhost:8000/api/v1/colleges?page=1&limit=10&sort=-rating [200 OK, 4.96kB, 15ms]
+  √  status is 200
+  √  has pagination meta
+  √  has aggregated rating fields
+
+└ Search + filter colleges
+  GET http://localhost:8000/api/v1/colleges?search=technology&state=tamil nadu&min_rating=3.5 [200 OK, 2.25kB, 13ms]
+  √  status is 200
+
+└ Create college (teacher/admin)
+  POST http://localhost:8000/api/v1/colleges [201 Created, 764B, 14ms]
+  √  status is 201
+
+└ Get college (with rating distribution)
+  GET http://localhost:8000/api/v1/colleges/6ad47722e526fe1489d3f596 [200 OK, 759B, 11ms]
+  √  status is 200
+
+└ Update college (teacher/admin)
+  PATCH http://localhost:8000/api/v1/colleges/6ad47722e526fe1489d3f596 [200 OK, 748B, 14ms]
+  √  status is 200
+
+└ Reviews of a college
+  GET http://localhost:8000/api/v1/colleges/6ad47722e526fe1489d3f596/reviews?page=1&limit=5 [200 OK, 413B, 10ms]
+  √  status is 200
+
+□ Reviews
+└ Create review
+  POST http://localhost:8000/api/v1/reviews [201 Created, 821B, 10ms]
+  √  status is 201
+
+└ Create duplicate review (409)
+  POST http://localhost:8000/api/v1/reviews [409 Conflict, 452B, 12ms]
+  √  status is 409
+
+└ List reviews (paginated)
+  GET http://localhost:8000/api/v1/reviews?page=1&limit=10&sort=newest [200 OK, 5.38kB, 11ms]
+  √  status is 200
+
+└ Search reviews (full text)
+  GET http://localhost:8000/api/v1/reviews?search=placements&min_rating=4 [200 OK, 5.46kB, 12ms]
+  √  status is 200
+
+└ Get review
+  GET http://localhost:8000/api/v1/reviews/6ad47722e526fe1489d3f597 [200 OK, 816B, 13ms]
+  √  status is 200
+
+└ Update own review
+  PATCH http://localhost:8000/api/v1/reviews/6ad47722e526fe1489d3f597 [200 OK, 821B, 15ms]
+  √  status is 200
+
+└ Teacher cannot delete others' review (403)
+  DELETE http://localhost:8000/api/v1/reviews/6ad47722e526fe1489d3f597 [403 Forbidden, 415B, 8ms]
+  √  status is 403
+
+└ Delete own review
+  DELETE http://localhost:8000/api/v1/reviews/6ad47722e526fe1489d3f597 [204 No Content, 270B, 11ms]
+  √  status is 204
+
+□ Users (admin)
+└ List users
+  GET http://localhost:8000/api/v1/users?role=student&page=1 [200 OK, 1.92kB, 14ms]
+  √  status is 200
+
+└ Student cannot list users (403)
+  GET http://localhost:8000/api/v1/users [403 Forbidden, 424B, 7ms]
+  √  status is 403
+
+└ Change role / deactivate
+  PATCH http://localhost:8000/api/v1/users/6ad4771fe526fe1489d3f594 [200 OK, 490B, 16ms]
+  √  status is 200
+
+└ Teacher cannot delete a college (403)
+  DELETE http://localhost:8000/api/v1/colleges/6ad47722e526fe1489d3f596 [403 Forbidden, 424B, 9ms]
+  √  status is 403
+
+└ Delete college (admin, cascades reviews)
+  DELETE http://localhost:8000/api/v1/colleges/6ad47722e526fe1489d3f596 [204 No Content, 270B, 9ms]
+  √  status is 204
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                28 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                28 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 0 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                30 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 4.5s                                        │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 24.95kB (approx)                           │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 80ms [min: 6ms, max: 374ms, s.d.: 129ms] │
+└─────────────────────────────────────────────────────────────────┘

@@ -1,0 +1,57 @@
+# Local infrastructure for the College Review System.
+#
+#   docker compose up -d                       # MongoDB only (run API + web with `npm run dev`)
+#   docker compose --profile app up -d --build # everything in containers: mongo + api + web
+#   docker compose --profile app run --rm api python -m scripts.seed   # seed the containerised DB
+#
+name: college-review
+
+services:
+  mongo:
+    image: mongo:8.0
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MONGO_PORT:-27017}:27017" # only reachable from this machine
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+
+  api:
+    profiles: ["app"]
+    build: ./backend
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      MONGODB_URI: mongodb://mongo:27017
+      CORS_ORIGINS: http://localhost:3000
+      # Trust X-Forwarded-For from the web container so rate limits apply per real client.
+      FORWARDED_ALLOW_IPS: "*"
+    ports:
+      - "8000:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  web:
+    profiles: ["app"]
+    build: ./frontend
+    restart: unless-stopped
+    environment:
+      API_URL: http://api:8000
+      # Served over plain http on localhost; set to "true" (default) behind HTTPS.
+      COOKIE_SECURE: "false"
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  mongo-data:

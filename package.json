@@ -1,0 +1,24 @@
+{
+  "name": "college-review-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "College Review System — FastAPI + MongoDB backend, Next.js + Tailwind frontend",
+  "scripts": {
+    "postinstall": "node scripts/setup.mjs",
+    "setup": "node scripts/setup.mjs",
+    "seed": "node scripts/py.mjs -m scripts.seed",
+    "dev": "concurrently --kill-others-on-fail --names api,web --prefix-colors blue,magenta \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "node scripts/py.mjs -m uvicorn app.main:app --reload --port 8000",
+    "dev:web": "npm --prefix frontend run dev",
+    "test": "node scripts/py.mjs -m pytest --cov --cov-report=term-missing",
+    "test:report": "node scripts/py.mjs -m pytest --cov --cov-report=term-missing --cov-report=html:../docs/test-results/coverage-html --junitxml=../docs/test-results/junit.xml",
+    "lint": "node scripts/py.mjs -m ruff check . && npm --prefix frontend run lint",
+    "build:web": "npm --prefix frontend run build"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  },
+  "engines": {
+    "node": ">=20.9"
+  }
+}
